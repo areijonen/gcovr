@@ -477,12 +477,15 @@ def process_gcov_data(data_fname, covdata, options):
             'Fatal error parsing gcov file, line 1: \n\t"%s"' % line.rstrip()
         )
     currdir = os.getcwd()
-    os.chdir(starting_dir)
+#   File paths end up being relative to currdir at some point anyway,
+#   so this just breaks the paths. It's probably broken only for
+#   hierarchical projects using qmake SUBDIRS.
+#    os.chdir(starting_dir)
     if sys.version_info >= (2, 6):
         fname = os.path.abspath((segments[-1]).strip())
     else:
         fname = aliases.unalias_path(os.path.abspath((segments[-1]).strip()))
-    os.chdir(currdir)
+#    os.chdir(currdir)
     if options.verbose:
         sys.stdout.write("Parsing coverage data for file %s\n" % fname)
     #
